@@ -13,13 +13,19 @@
 			"fileFormat": "json",
 			"managerFilePatterns": [".github/renovate-*.json"],
 			"matchStrings": [
-				"packageRules[\"nginx\" in matchDepNames].{ \"depName\": matchDepNames[0], \"packageName\": matchDepNames[0], \"currentValue\": allowedVersions }"
+				"packageRules[\"nginx\" in matchDepNames].{ \"depName\": matchDepNames[0], \"packageName\": matchDepNames[0], \"currentValue\": $substringAfter(allowedVersions, \"<=\") }"
 			],
 			"datasourceTemplate": "docker",
-			"versioningTemplate": "npm"
+			"versioningTemplate": "docker"
 		}
 	],
 	"packageRules": [
+		{
+			"description": "Don't try to digest-pin the `nginx` version tracked in the `allowedVersions` presets, as it's a version constraint, not a real image reference",
+			"matchFileNames": [".github/renovate-*.json"],
+			"matchDatasources": ["docker"],
+			"pinDigests": false
+		},
 		{
 			"description": "`dev` branch: raise PRs immediately, no gating",
 			"matchBaseBranches": ["dev"],
