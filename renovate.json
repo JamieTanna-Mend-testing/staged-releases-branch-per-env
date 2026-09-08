@@ -1,7 +1,24 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:best-practices"],
+	"extends": [
+		"config:best-practices",
+		"github>JamieTanna-Mend-testing/staged-releases-branch-per-env//.github/renovate-dev.json#dev",
+		"github>JamieTanna-Mend-testing/staged-releases-branch-per-env//.github/renovate-staging.json#staging"
+	],
 	"baseBranchPatterns": ["dev", "staging", "prod"],
+	"customManagers": [
+		{
+			"customType": "jsonata",
+			"description": "Keep the `nginx` `allowedVersions` packageRule in sync with the regular NGINX Docker image",
+			"fileFormat": "json",
+			"managerFilePatterns": [".github/renovate-*.json"],
+			"matchStrings": [
+				"packageRules[\"nginx\" in matchDepNames].{ \"depName\": matchDepNames[0], \"packageName\": matchDepNames[0], \"currentValue\": allowedVersions }"
+			],
+			"datasourceTemplate": "docker",
+			"versioningTemplate": "npm"
+		}
+	],
 	"packageRules": [
 		{
 			"description": "`dev` branch: raise PRs immediately, no gating",
