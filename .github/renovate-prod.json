@@ -1,0 +1,11 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Current versions of dependencies deployed into `prod`, for use by other repos that want to track only what's actually live in production",
+	"packageRules": [
+		{
+			"description": "nginx",
+			"matchDepNames": ["nginx"],
+			"allowedVersions": "<=1.25.3"
+		}
+	]
+}
