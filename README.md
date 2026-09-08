@@ -54,9 +54,18 @@ See [`renovate.json`](renovate.json).
   updated past what's live on `dev`, and `prod` can never be updated past
   what's live on `staging`.
 - The `customManagers` entry keeps each `.github/renovate-*.json` preset's
-  `allowedVersions` in sync with that branch's own `docker-compose.yml`, by
-  treating the `allowedVersions` string as if it were the current value of a
-  `nginx` dependency and letting the regular Docker datasource bump it.
+  `allowedVersions` in sync with that branch's own `docker-compose.yml`. It
+  extracts just the version number after the `<=` (not the whole
+  `"<=1.27.3"` string — the Docker datasource needs a real tag to look up,
+  and can't resolve one containing a range operator) as the dependency's
+  `currentValue`, and lets the regular Docker datasource propose bumping it.
+  Because that extracted value shares a `depName`/bucket with the branch's
+  own `docker-compose.yml` `nginx` dependency, Renovate groups both changes
+  into the same branch/PR — `docker-compose.yml` and the preset's
+  `allowedVersions` get bumped together, atomically.
+- A `pinDigests: false` `packageRule` stops Renovate from trying to
+  digest-pin that same synthetic dependency — `allowedVersions` is a version
+  constraint, not an image reference, so there's no digest to pin.
 - `.github/renovate-prod.json` has no `matchBaseBranches`, since it's meant to
   be `extends`-ed by other repos that want to track only the `nginx` version
   that's actually live in production.
