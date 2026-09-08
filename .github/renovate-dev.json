@@ -1,0 +1,12 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"description": "Update versions of dependencies in `staging` to the current version deployed into `dev`",
+	"packageRules": [
+		{
+			"matchBaseBranches": ["staging"],
+			"description": "nginx",
+			"matchDepNames": ["nginx"],
+			"allowedVersions": "<=1.27.3"
+		}
+	]
+}
