@@ -6,7 +6,7 @@
 			"matchBaseBranches": ["staging"],
 			"description": "nginx",
 			"matchDepNames": ["nginx"],
-			"allowedVersions": "<=1.27.3"
+			"allowedVersions": "<=1.31.5"
 		}
 	]
 }
