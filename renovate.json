@@ -1,0 +1,24 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:best-practices"],
+	"baseBranchPatterns": ["dev", "staging", "prod"],
+	"packageRules": [
+		{
+			"description": "`dev` branch: raise PRs immediately, no gating",
+			"matchBaseBranches": ["dev"],
+			"commitMessageSuffix": " (`dev` branch)"
+		},
+		{
+			"description": "`staging` branch: hold behind the Dependency Dashboard until manually promoted",
+			"matchBaseBranches": ["staging"],
+			"commitMessageSuffix": " (`staging` branch)",
+			"dependencyDashboardApproval": true
+		},
+		{
+			"description": "`prod` branch: hold behind the Dependency Dashboard until manually promoted",
+			"matchBaseBranches": ["prod"],
+			"commitMessageSuffix": " (`prod` branch)",
+			"dependencyDashboardApproval": true
+		}
+	]
+}
